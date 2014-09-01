@@ -1,0 +1,7 @@
+#!/bin/sh
+DIRNAME="`dirname "$0"`"
+cd "$DIRNAME/.."
+
+/bin/sleep 30
+
+exec python src/lamp.py
