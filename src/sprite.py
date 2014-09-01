@@ -1,4 +1,4 @@
-import Image
+from PIL import Image
 
 class Sprite(object):
     def __init__(self, images, pos=(0,0), speed=(0,0), fs=0):

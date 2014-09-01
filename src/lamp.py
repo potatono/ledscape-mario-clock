@@ -1,4 +1,4 @@
-import Image, ImageFont, ImageDraw
+from PIL import Image, ImageFont, ImageDraw
 import socket
 import time, datetime
 from colorsys import hsv_to_rgb
@@ -17,8 +17,10 @@ rf = 0
 
 im = Image.new("RGBA", (width,height), "black")
 im_draw = ImageDraw.Draw(im)
-bg = Image.open("images/bg_normal.png")
+bg = Image.open("images/bg_normal_big.png")
+bgofs = 0
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+sock.setsockopt(socket.SOL_SOCKET, socket.SO_SNDBUF, width*height*3+1);
 font = ImageFont.truetype("fonts/spincycle.ttf", 18)
 font_sm = ImageFont.truetype("fonts/pf_tempesta_seven.ttf", 8)
 
@@ -68,7 +70,7 @@ def calcweather():
     elif (cover > 10):
         bg = Image.open('images/bg_dark.png')
     else:
-        bg = Image.open('images/bg_normal.png')
+        bg = Image.open('images/bg_normal_big.png')
 
     for i in xrange(cover,20):
         if clouds[i].active:
@@ -105,11 +107,31 @@ def drawweather():
     im_draw.point((30,59),(0,0,0))
     im_draw.point((29,58),(0,0,0))
 
+def drawbg():
+    global bgofs
+
+    if bg.size[0] > width:
+        if frame % 30 == 0:
+            bgofs = bgofs + 1
+
+            if bgofs > bg.size[0]:
+                bgofs = 0
+
+        im.paste(bg.crop((bgofs,0,width+bgofs,height)), (0,0,width,height))
+
+        if bgofs > bg.size[0]-width:
+            o = width-(bg.size[0]-bgofs)
+            im.paste(bg.crop((0,0,o,height)), (width-o,0,width,height))
+
+    else:
+        im.paste(bg, (0,0,width,height))
+
+
 while True:
     if frame % 1800 == 0:
         calcweather()
 
-    im.paste(bg, (0,0,width,height))
+    drawbg()
     drawweather()
     drawtime()
 
