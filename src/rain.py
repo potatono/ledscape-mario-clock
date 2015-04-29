@@ -6,9 +6,9 @@ class Rain(object):
         for i in xrange(100):
             self.drops.append({'x':randint(0,64),'y':randint(0,64),'s':uniform(0.5,2)})
 
-    def paint(self,draw):
+    def paint(self,draw,color=(96,96,200)):
         for drop in self.drops:
-            draw.point((drop['x'],drop['y']),(96,96,200))
+            draw.point((drop['x'],drop['y']),color)
 
     def move(self):
         for drop in self.drops:
