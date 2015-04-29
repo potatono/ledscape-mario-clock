@@ -51,7 +51,7 @@ class Visualization(object):
 
         if (self.weather.conditions == 'snow' or self.weather.conditions == 'hail' or self.weather.conditions == 'sleet'):
             self.bg = Image.open('images/bg_icy_normal.png')
-        elif (time.time() > self.weather.sunset + 1800 or time.time() < self.weather.sunrise):
+        elif (time.time() > self.weather.sunset + 1800 and time.time() < self.weather.sunrise):
             self.bg = Image.open('images/bg_night.png')
         elif (self.weather.cover > 10):
             self.bg = Image.open('images/bg_dark.png')
