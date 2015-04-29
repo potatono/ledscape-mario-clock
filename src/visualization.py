@@ -31,8 +31,6 @@ class Visualization(object):
         self.im_draw.text((8,0), t, (16,16,16) ,font=self.font)
 
     def updateweather(self):
-        
-        hour = datetime.datetime.now().hour
 
         self.weather.update()
 
@@ -53,7 +51,7 @@ class Visualization(object):
 
         if (self.weather.conditions == 'snow' or self.weather.conditions == 'hail' or self.weather.conditions == 'sleet'):
             self.bg = Image.open('images/bg_icy_normal.png')
-        elif (hour > 18 or hour < 5):
+        elif (time.time() > self.weather.sunset + 1800 or time.time() < self.weather.sunrise):
             self.bg = Image.open('images/bg_night.png')
         elif (self.weather.cover > 10):
             self.bg = Image.open('images/bg_dark.png')
