@@ -28,7 +28,9 @@ class Visualization(object):
     def drawtime(self):
         now = datetime.datetime.now()
         t = now.strftime("%I:%M")
-        self.im_draw.text((8,0), t, (16,16,16) ,font=self.font)
+        size = self.im_draw.textsize(t, font=self.font)
+        x = self.width / 2 - size[0] / 2
+        self.im_draw.text((x,0), t, (16,16,16) ,font=self.font)
 
     def updateweather(self):
 
