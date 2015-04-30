@@ -27,7 +27,7 @@ class Visualization(object):
 
     def drawtime(self):
         now = datetime.datetime.now()
-        t = now.strftime("%H:%M")
+        t = now.strftime("%h:%M")
         self.im_draw.text((8,0), t, (16,16,16) ,font=self.font)
 
     def updateweather(self):
@@ -61,16 +61,6 @@ class Visualization(object):
             self.bg = Image.open('images/bg_sunset_big.png')
         else:
             self.bg = Image.open('images/bg_normal_big.png')
-
-    def applysunset(self):
-        pix = self.bg.load()
-        for x in xrange(self.width):
-            for y in xrange(self.height):
-                if (x == 0 and y == 0):
-                    print pix[x,y]
-                if pix[x,y] == (0,96,184):
-                    pix[x,y] = (255,255,255)
-
 
     def drawweather(self):
         cond = self.weather.conditions

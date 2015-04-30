@@ -1,3 +1,4 @@
+import datetime
 from darksky import Darksky
 from config import Config
 
@@ -31,7 +32,12 @@ class Weather(object):
             
             self.temp = currently['temperature']
             self.rf = currently['apparentTemperature']
+            
             self.sunset = self.darksky.get()['daily']['data'][0]['sunsetTime']
-            self.sunrise = self.darksky.get()['daily']['data'][0]['sunriseTime']
+
+            if (datetime.datetime.now().hour >= 12):
+                self.sunrise = self.darksky.get()['daily']['data'][1]['sunriseTime']
+            else:
+                self.sunrise = self.darksky.get()['daily']['data'][0]['sunriseTime']
 
         print "temp=",self.temp,"wind=",self.wind,"cover=",self.cover, "conditions=",self.conditions,"rf=",self.rf
