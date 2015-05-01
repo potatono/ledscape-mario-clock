@@ -7,14 +7,15 @@ class Cloud(Sprite):
         self.active = False
 
     def activate(self, xs=0.02):
-        if (not self.active):
-            if (xs == 0):
-                xs = uniform(0.005,0.008)
+        if (xs == 0):
+            xs = uniform(0.005,0.008)
+        
+        self.speed = (xs * uniform(0.9,1.2), 0)
 
+        if (not self.active):
             self.active = True
             self.pos[0] = randint(-32,64+32)
             self.pos[1] = randint(-8,32)
-            self.speed = (xs * uniform(0.9,1.2), 0)
 
     def deactivate(self):
         self.active = False

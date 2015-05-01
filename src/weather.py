@@ -19,6 +19,7 @@ class Weather(object):
             print "Using fake weather data from config"
         else:
             currently = self.darksky.get()['currently']
+            daily = self.darksky.get()['daily']['data']
 	
             # clear-day, clear-night, rain, snow, sleet, wind, fog, cloudy, 
             # partly-cloudy-day, or partly-cloudy-night. 
@@ -28,16 +29,16 @@ class Weather(object):
             
             self.wind = currently['windSpeed']
             self.windbearing = currently['windBearing']
-            self.cover = int(currently['cloudCover'] * 20);
+            self.cover = currently['cloudCover'];
             
             self.temp = currently['temperature']
             self.rf = currently['apparentTemperature']
             
-            self.sunset = self.darksky.get()['daily']['data'][0]['sunsetTime']
-
             if (datetime.datetime.now().hour >= 12):
-                self.sunrise = self.darksky.get()['daily']['data'][1]['sunriseTime']
+                self.sunrise = daily[1]['sunriseTime']
+                self.sunset = daily[0]['sunsetTime']
             else:
-                self.sunrise = self.darksky.get()['daily']['data'][0]['sunriseTime']
+                self.sunrise = daily[0]['sunriseTime']
+                self.sunset = time.time() - 1
 
         print "temp=",self.temp,"wind=",self.wind,"cover=",self.cover, "conditions=",self.conditions,"rf=",self.rf

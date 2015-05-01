@@ -36,6 +36,8 @@ class Visualization(object):
 
         self.weather.update()
 
+        clouds = int(self.weather.cover * 20)
+
         if (self.weather.wind == 0):
             cloudspeed = 0
         elif (self.weather.windbearing <= 90 or self.weather.windbearing >= 270):
@@ -43,19 +45,18 @@ class Visualization(object):
         else:
             cloudspeed = float(self.weather.wind)/30.0
         
-        for i in xrange(self.weather.cover,20):
+        for i in xrange(clouds,20):
             if self.clouds[i].active:
                 self.clouds[i].deactivate()
 
-        for i in xrange(self.weather.cover):
-            if not self.clouds[i].active:
-                self.clouds[i].activate(cloudspeed)
+        for i in xrange(clouds):
+            self.clouds[i].activate(cloudspeed)
 
         if (self.weather.conditions == 'snow' or self.weather.conditions == 'hail' or self.weather.conditions == 'sleet'):
             self.bg = Image.open('images/bg_icy_normal.png')
         elif (time.time() > self.weather.sunset + 1800 and time.time() < self.weather.sunrise):
             self.bg = Image.open('images/bg_night.png')
-        elif (self.weather.cover > 10):
+        elif (self.weather.cover > 0.75):
             self.bg = Image.open('images/bg_dark.png')
         elif (time.time() >= self.weather.sunset and time.time() <= self.weather.sunset + 1800):
             self.bg = Image.open('images/bg_sunset_big.png')
