@@ -1,3 +1,4 @@
+import time
 import datetime
 from darksky import Darksky
 from config import Config
@@ -39,6 +40,7 @@ class Weather(object):
                 self.sunset = daily[0]['sunsetTime']
             else:
                 self.sunrise = daily[0]['sunriseTime']
-                self.sunset = time.time() - 1
+                self.sunset = time.time() - 43200
 
         print "temp=",self.temp,"wind=",self.wind,"cover=",self.cover, "conditions=",self.conditions,"rf=",self.rf
+        print "sunrise=",self.sunrise,"sunset=",self.sunset
