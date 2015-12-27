@@ -17,7 +17,7 @@ class Darksky(object):
 
     def fetch(self):
         try:
-            r = requests.get(self.url)
+            r = requests.get(self.url, timeout=10)
             self.root = r.json()
             self.last = time.time()
         except Exception as e:
